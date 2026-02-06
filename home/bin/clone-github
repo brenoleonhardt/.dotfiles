@@ -1,10 +1,63 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2155
+#
+# TODO: delete this
+#
+# in a subshell, if any command fails, exit it with 1
+# useful for ERR=$({ foo | bar | baz; } 2>&1) || die "$ERR"
+set -o pipefail
 
-comm -3 <(gh repo list brenopacheco \
-	--limit 100 \
+# Constants
+readonly SCRIPT_NAME=$(basename "$0")
+readonly GH_USER="brenopacheco"
+readonly GIT_DIR="$HOME/git"
+readonly REPO_LIMIT=100
+readonly EXCLUDED_REPOS='(.dotfiles|.password-store|notes)'
+
+die() {
+	local message="$1"
+
+	# Send desktop notification if not running in terminal
+	if [[ ! -t 1 ]]; then
+		notify-send -u critical -a "$SCRIPT_NAME" -i error "$SCRIPT_NAME" "$message"
+	fi
+
+	echo "$message" >&2
+	exit 1
+}
+
+success() {
+	local message="$1"
+
+	# Send desktop notification if not running in terminal
+	if [[ ! -t 1 ]]; then
+		notify-send -a "$SCRIPT_NAME" -i success "$SCRIPT_NAME" "$message"
+	fi
+
+	echo "$message"
+	exit 0
+}
+
+TOKEN=$(pass show "token/$GH_USER/gh-ro" 2>&1) || die "Failed to retrieve GitHub token: $TOKEN"
+
+GITHUB_REPOS=$({ GH_TOKEN="$TOKEN" gh repo list "$GH_USER" \
+	--limit "$REPO_LIMIT" \
 	--json name,isArchived \
 	--jq '.[] | select(.isArchived==false) | .name' |
-	sort -u) <(/usr/bin/ls -1 ~/git | sort -u) |
-	grep -vE '^(.dotfiles|.password-store)$' |
-	dmenu -p Repository -d ':' |
-	xargs -I{} -r git clone git@github.com:brenopacheco/{}.git "$HOME/git/{}"
+	sort -u; } 2>&1) || die "Failed to list local repos: $GITHUB_REPOS"
+
+LOCAL_REPOS=$({ /usr/bin/ls -1 "$GIT_DIR" | sort -u; } 2>&1) ||
+	die "Failed to list local repos: $LOCAL_REPOS"
+
+REPO_NAME=$({
+	comm -3 <(echo "$GITHUB_REPOS") <(echo "$LOCAL_REPOS") |
+		grep -vE "^\s" |
+		grep -vE "^${EXCLUDED_REPOS}$" |
+		dmenu -p Repository -d ':'
+}) 2>&1
+
+if [[ -n "$REPO_NAME" ]]; then
+	OUT=$(git clone "git@github.com:$GH_USER/${REPO_NAME}.git" "$GIT_DIR/$REPO_NAME" 2>&1) ||
+		die "Failed to clone $REPO_NAME: $OUT"
+	success "Cloned $REPO_NAME into $GIT_DIR/$REPO_NAME"
+fi

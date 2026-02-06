@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # * */4 * * * $HOME/bin/sync-books
 # journalctl -t cron-books
+# TODO: document initial setup
 
 exec 1> >(logger -p user.info -t cron-books)
 exec 2> >(logger -p user.err -t cron-books)

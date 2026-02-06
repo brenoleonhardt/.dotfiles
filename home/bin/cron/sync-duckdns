@@ -5,7 +5,6 @@
 # journalctl -t cron-duckdns
 #
 # ~/.duckdns file format:
-#   token: 1234 # duckdns tooken
 #   domains:
 #     - example.com:208.65.153.238 # <name>:<ip>
 #     - example.org:localhost
@@ -25,6 +24,13 @@ fi
 DUCKDNS_TOKEN=$(yq '.token' "$DUCKDNS_CONFIG")
 
 if test -z "$DUCKDNS_TOKEN"; then
+	echo "Missing duckdns token" >&2
+	exit 1
+fi
+
+TOKEN=$(pass token/duckdns 2>/dev/null)
+
+if test -z "$TOKEN"; then
 	echo "Missing duckdns token" >&2
 	exit 1
 fi

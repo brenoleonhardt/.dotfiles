@@ -82,6 +82,9 @@ pacman(
     'zip',                    'zk',
     'cpanminus',              'perl-local-lib',
     'man-pages',
+
+    # new packages
+    'isync', 'neomutt', 'notmuch', 'msmtp'
 );
 
 dirs(

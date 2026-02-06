@@ -79,15 +79,8 @@ if rustup which rustc >/dev/null 2>&1; then
 	append_path "$(dirname "$(rustup which rustc)")"
 fi
 
-test -e ~/.npmtoken && source ~/.npmtoken
-
 export NODE_OPTIONS="--max-old-space-size=12288"
-
-# perl
-# TODO: check this
-#export PERL5LIB="$HOME/.perl5/custom" # for stowed modules
-#export PERL_CPANM_OPT="--local-lib=$HOME/.perl5"
-#eval "$(perl -I "$HOME"/.perl5/lib/perl5/ -Mlocal::lib="$HOME/.perl5")"
+# export NODE_AUTH_TOKEN=`pass token/...`
 
 if ! pgrep gpg-agent >/dev/null 2>&1; then
 	gpg-agent --daemon
