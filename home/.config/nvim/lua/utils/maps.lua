@@ -127,8 +127,20 @@ M.jump_argnext = function() return vim.cmd('next') end
 M.jump_argprev = function() return vim.cmd('prev') end
 M.jump_bufnext = function() vim.cmd('bnext') end
 M.jump_bufprev = function() vim.cmd('bprevious') end
-M.jump_chunknext = require('gitsigns').next_hunk
-M.jump_chunkprev = require('gitsigns').prev_hunk
+M.jump_chunknext = function()
+	if vim.o.diff then
+		vim.cmd('normal! ]c')
+	else
+		require('gitsigns').next_hunk()
+	end
+end
+M.jump_chunkprev = function()
+	if vim.o.diff then
+		vim.cmd('normal! [c')
+	else
+		require('gitsigns').prev_hunk()
+	end
+end
 M.jump_errornext = function() vim.diagnostic.goto_next() end
 M.jump_errorprev = function() vim.diagnostic.goto_prev() end
 M.jump_qfnext = function() qfutil.next_entry() end

@@ -3,6 +3,9 @@ set shellopts '-eu'
 set shell bash
 set scrolloff 10
 
+#set drawbox true
+#set preview false
+
 map e $$EDITOR "$f"
 map w $$BROWSER "$f" & disown
 map i $$PAGER "$f"

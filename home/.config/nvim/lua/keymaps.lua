@@ -141,8 +141,10 @@ local keyboard = {
       { { 's',     }, 'kj',         '<esc>'                                  },
       { { 'c',     }, 'jk',         '<esc>'                                  },
       { { 'c',     }, 'kj',         '<esc>'                                  },
-      { { 't',     }, 'jk',         '<C-\\><C-n>'                            },
-      { { 't',     }, 'kj',         '<C-\\><C-n>'                            },
+      { { 't',     }, 'jk',         [[<C-\><C-n>]]                           },
+      { { 't',     }, 'kj',         [[<C-\><C-n>]]                           },
+      { { 't',     }, '<esc>',      [[<C-\><C-n>]]                           },
+      { { 't',     }, '<esc>',      [[<C-\><C-n>]]                           },
       { { 'x',     }, '<',          '<gv'                                    },
       { { 'x',     }, '>',          '>gv'                                    },
       { { 'n',     }, '>',          '>>'                                     },
@@ -155,6 +157,7 @@ local keyboard = {
       { {      'x' }, '=',           maps.run_format,                        },
       { { 's',     }, '<bs>',       '<bs>i'                                  },
       { { 'x',     }, '*',          [["zy/\V<C-r>=escape(@z, '\/')<cr><cr>]] },
+
     }, -- ]]
     cmdline = { -- [[
       -- TODO: ~/notes/nthmn3k7-linux-terminal-keybindings.md
@@ -241,8 +244,21 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileType' }, {
 })
 -- ]]
 
---[[ 
-*:map-arguments*
+--[[ -- 1-9 marks override with A-I
+for i = 1, 9 do
+	local mark = string.char(string.byte('A') + i - 1)
+	vim.keymap.set('n', 'm' .. tostring(i), function()
+		vim.cmd('mark ' .. mark)
+		vim.notify('Set mark ' .. mark, vim.log.levels.INFO)
+	end, { desc = 'Set mark ' .. mark })
+	vim.keymap.set('n', '`' .. tostring(i), function()
+		vim.cmd('normal! `' .. mark)
+		vim.notify('Jumped to mark ' .. mark, vim.log.levels.INFO)
+	end, { desc = 'Jump to mark ' .. mark })
+end
+]]
+
+--[[ *:map-arguments* reference
   buffer: current buffer only                                   (default false)
   remap:  recursive mapping                                     (default false)
   nowait: don't wait for other mappings, immediatly evaluate    (default false)

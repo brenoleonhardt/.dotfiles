@@ -9,6 +9,12 @@
                              brenoleonhardt@gmail.com
 --]]
 
+if vim.env.NVIM then
+  io.stdout:write("Neovim is already running. Bailing out...\n\r")
+  io.stdout:flush()
+  os.exit(1)
+end
+
 if vim.g.vscode then return end
 
 vim.z = {}

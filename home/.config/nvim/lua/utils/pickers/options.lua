@@ -41,6 +41,21 @@ local opt_relnumber = function()
 end
 
 ---@return Option
+local opt_wrap = function()
+	return vim.o.wrap
+			and {
+				name = '󰴐 nowrap',
+				description = 'disable soft line wrapping',
+				callback = function() vim.o.wrap = false end,
+			}
+		or {
+			name = '󰴐 wrap',
+			description = 'enable soft line wrapping',
+			callback = function() vim.o.wrap = true end,
+		}
+end
+
+---@return Option
 local opt_bomb = function()
 	return vim.o.bomb
 			and {
@@ -78,6 +93,7 @@ local options = function()
 	vim.list_extend(opts, {
 		opt_scrolloff(),
 		opt_relnumber(),
+		opt_wrap(),
 		opt_bomb(),
 	})
 	return opts
