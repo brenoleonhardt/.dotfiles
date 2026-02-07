@@ -1,0 +1,45 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User b.leonhardt.pacheco@gmail.com
+TLSType IMAPS
+SystemCertificates yes
+PassCmd "pass token/b.leonhardt.pacheco@gmail.com/mbsync"
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Path ~/.mail/gmail/
+Inbox ~/.mail/gmail/INBOX
+SubFolders Verbatim
+
+Channel gmail-inbox
+Far :gmail-remote:INBOX
+Near :gmail-local:INBOX
+SyncState *
+Create Near
+Remove None
+Expunge None
+
+Channel gmail-labels
+Far :gmail-remote:
+Near :gmail-local:
+Patterns * !INBOX !"[Gmail]/*" !"All Mail" !"Drafts" !"Trash"
+SyncState *
+Create Both
+Remove Both
+Expunge None
+
+Channel gmail-defaults
+Far :gmail-remote:"[Gmail]/"
+Near :gmail-local:
+Patterns "All Mail" "Drafts" "Trash"
+SyncState *
+Create Near
+Remove None
+Expunge None
+
+Group gmail
+Channel gmail-inbox
+Channel gmail-labels
+Channel gmail-defaults

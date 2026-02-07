@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+
+rm -rf \
+	~/.local/state/isync \
+	~/.mail/ \
+	~/Maildir/
+
+mkdir -p ~/.mail/gmail/
+
+chmod 700 ~/.mail
+chmod 700 ~/.mail/gmail/
+# mbsync -a

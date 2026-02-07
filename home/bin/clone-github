@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2155
 #
-# TODO: delete this
-#
 # in a subshell, if any command fails, exit it with 1
 # useful for ERR=$({ foo | bar | baz; } 2>&1) || die "$ERR"
 set -o pipefail
 
 # Constants
 readonly SCRIPT_NAME=$(basename "$0")
-readonly GH_USER="brenopacheco"
 readonly GIT_DIR="$HOME/git"
 readonly REPO_LIMIT=100
 readonly EXCLUDED_REPOS='(.dotfiles|.password-store|notes)'
@@ -38,9 +35,9 @@ success() {
 	exit 0
 }
 
-TOKEN=$(pass show "token/$GH_USER/gh-ro" 2>&1) || die "Failed to retrieve GitHub token: $TOKEN"
+TOKEN=$(pass show "token/brenoleonhardt@gmail.com/gh-ro" 2>&1) || die "Failed to retrieve GitHub token: $TOKEN"
 
-GITHUB_REPOS=$({ GH_TOKEN="$TOKEN" gh repo list "$GH_USER" \
+GITHUB_REPOS=$({ GH_TOKEN="$TOKEN" gh repo list brenopacheco \
 	--limit "$REPO_LIMIT" \
 	--json name,isArchived \
 	--jq '.[] | select(.isArchived==false) | .name' |
@@ -57,7 +54,7 @@ REPO_NAME=$({
 }) 2>&1
 
 if [[ -n "$REPO_NAME" ]]; then
-	OUT=$(git clone "git@github.com:$GH_USER/${REPO_NAME}.git" "$GIT_DIR/$REPO_NAME" 2>&1) ||
+	OUT=$(git clone "git@github.com:brenopacheco/${REPO_NAME}.git" "$GIT_DIR/$REPO_NAME" 2>&1) ||
 		die "Failed to clone $REPO_NAME: $OUT"
 	success "Cloned $REPO_NAME into $GIT_DIR/$REPO_NAME"
 fi

@@ -10,9 +10,10 @@ local M = function()
 	local cmd = { 'fd', '-H', '-I', '-t', 'd', '^.git$', '-d', '2' }
 
 	local inserts = {
-		'~/notes',
-		'~/.password-store',
 		'~/.dotfiles',
+		'~/.password-store',
+		'~/bin',
+		'~/notes',
 	}
 
 	for _, pat in ipairs(ignore) do
