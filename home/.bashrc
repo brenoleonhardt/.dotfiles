@@ -51,6 +51,17 @@ export XDG_CONFIG_HOME=$HOME/.config
 export GPG_TTY=$(tty)
 export SSH_AUTH_SOCK=$(gpgconf --list-dirs agent-ssh-socket)
 
+if ! pgrep gpg-agent >/dev/null 2>&1; then
+	if [[ "$(uname)" == "Darwin" ]]; then
+		gpg-agent --daemon
+	elif systemctl --user is-active gpg-agent.target >/dev/null; then
+		printf '%s\n' \
+			"gpg-agent is not active. enable it by running" \
+			"  systemctl --user enable gpg-agent.target" \
+			"  systemctl --user start gpg-agent.target" >&2
+	fi
+fi
+
 append_path() {
 	case ":$PATH:" in
 	*:"$1":*) ;;
@@ -81,8 +92,3 @@ fi
 
 export NODE_OPTIONS="--max-old-space-size=12288"
 # export NODE_AUTH_TOKEN=`pass token/...`
-
-if ! pgrep gpg-agent >/dev/null 2>&1; then
-	gpg-agent --daemon
-	export SSH_AUTH_SOCK="$(gpgconf --list-dirs agent-ssh-socket)"
-fi

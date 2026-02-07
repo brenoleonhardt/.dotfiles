@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 
 # TODO:
-#   0. ~perl packages (e.g: cpanm JSON::XS)~
+#   0. replace this script for a proper cli
 #   1. gpg --export-ssh-key brenoleonhardt@gmail.com > ~/.ssh/blp.pub && chmod 0600 ~/.ssh/blp.pub
 #   2. add user crontab
 #       0 */4 * * *  $HOME/bin/cron/sync-books
@@ -603,8 +603,6 @@ sub go {
         _task( 'user', "GOPATH=\$HOME/.go go install $ref->[1]" );
     }
 }
-
-use Data::Dumper;
 
 sub rust {
     my ($conf) = @_;

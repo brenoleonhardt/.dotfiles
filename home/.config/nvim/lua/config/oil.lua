@@ -18,7 +18,7 @@ oil.setup({
 		['zh'] = 'actions.toggle_hidden',
 	},
 	buf_options = {
-		buflisted = false,
+		buflisted = true,
 		bufhidden = 'hide',
 		swapfile = false,
 	},

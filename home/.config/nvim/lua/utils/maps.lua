@@ -17,19 +17,6 @@ M.find_curdir = function()
 		hidden = true,
 	})
 end
-M.find_directory = function()
-	-- TODO: this is not quite good
-	require('telescope.builtin').find_files({
-		cwd = vim.fn.getcwd(),
-		-- find_command = {'fd', '.', '-t', 'd', '--base-directory', vim.env.HOME },
-		find_command = { 'fd', '.', '-t', 'd' },
-		search_dirs = {
-			vim.env.HOME,
-			vim.env.HOME .. '/.config',
-			vim.env.HOME .. '/.local',
-		},
-	})
-end
 M.find_rfiles = function()
 	local root = rootutil.git_root()
 	vim.notify("info: searching '" .. root .. "'", vim.log.levels.INFO)

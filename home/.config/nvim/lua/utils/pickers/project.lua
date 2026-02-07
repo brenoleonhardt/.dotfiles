@@ -1,15 +1,19 @@
 local M = function()
 	local roots = {
 		'~/git',
-		'~/desktop',
 		'~/sketch',
 		'~/tmp',
-		'~/fc',
 	}
 
 	local ignore = { '.asdf' }
 
 	local cmd = { 'fd', '-H', '-I', '-t', 'd', '^.git$', '-d', '2' }
+
+	local inserts = {
+		'~/notes',
+		'~/.password-store',
+		'~/.dotfiles',
+	}
 
 	for _, pat in ipairs(ignore) do
 		table.insert(cmd, '-E')
@@ -24,15 +28,19 @@ local M = function()
 	assert(out.code == 0, out.stderr)
 	assert(out.stdout ~= '', 'No projects found.')
 
-	local projects = vim
-		.iter(vim.split(vim.trim(out.stdout), '\n'))
-		:map(function(line)
-			local path = string.gsub(line, '/.git/', '')
-			local dir = vim.fn.fnamemodify(string.gsub(path, vim.env.HOME, '~'), ':h')
-			local name = vim.fn.fnamemodify(path, ':t')
-			return { path = path, dir = dir, name = name }
-		end)
-		:totable()
+	local map_path = function(line)
+		local path = string.gsub(line, '/.git/', '')
+		local dir = vim.fn.fnamemodify(string.gsub(path, vim.env.HOME, '~'), ':h')
+		local name = vim.fn.fnamemodify(path, ':t')
+		return { path = path, dir = dir, name = name }
+	end
+
+	local projects =
+		vim.iter(vim.split(vim.trim(out.stdout), '\n')):map(map_path):totable()
+
+	for _, insert in ipairs(inserts) do
+		table.insert(projects, 1, map_path(vim.fn.expand(insert)))
+	end
 
 	vim.ui.select(projects, {
 		prompt = 'Switch to project',
