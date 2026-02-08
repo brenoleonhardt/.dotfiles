@@ -76,6 +76,6 @@ key repeat rate, untoggles Caps Lock if it's on, loads .Xresources, and optional
 
 =head1 AUTHOR
 
-Breno Pacheco <github.com/brenopacheco>
+Breno Leonhardt <github.com/brenoleonhardt>
 
 =cut

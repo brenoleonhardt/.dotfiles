@@ -7,9 +7,8 @@ A Perl script that automates the complete setup of my developer environment.
 1. **Clone this repository:**
 
 ```sh
-git clone git@github.com:brenopacheco/.dotfiles.git ~/.dotfiles &&
-  cd ~/.dotfiles &&
-  perl ./playbook.pl
+git clone git@github.com:brenoleonhardt/.dotfiles.git ~/.dotfiles &&
+  perl ~/.dotfiles/playbook.pl
 ```
 
 ## Features

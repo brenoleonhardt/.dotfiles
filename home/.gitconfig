@@ -1,5 +1,5 @@
 [user]
-	name = Breno Leonhardt Pacheco
+	name = Breno Leonhardt
 	email = brenoleonhardt@gmail.com
 	signingkey = B01A3A7A20E3DD34D673FB20BCECC779EE234BC0
 [commit]
@@ -21,10 +21,9 @@
 	defaultBranch = main
 [log]
 	date = relative
-; [alias]
-[url "git@github-blp.com:brenopacheco/"]
-    insteadOf = git@github.com:brenopacheco/
-    insteadOf = https://github.com/brenopacheco/
-
+[alias]
+[url "git@github-private.com:brenoleonhardt/"]
+    insteadOf = git@github.com:brenoleonhardt/
+    insteadOf = https://github.com/brenoleonhardt/
 [url "git@github.com:"]
     insteadOf = https://github.com/

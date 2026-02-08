@@ -116,14 +116,16 @@ etc(
     { file => 'pacman.conf',              dir => '/etc/' },
 );
 
+my $GIT = 'git@github.com:brenoleonhardt/';
+
 git(
-    [ 'git@github.com:brenopacheco/.dotfiles.git',       '~/.dotfiles' ],
-    [ 'git@github.com:brenopacheco/.password-store.git', '~/.password-store' ],
-    [ 'git@github.com:brenopacheco/notes.git',           '~/notes' ],
-    [ 'git@github.com:brenopacheco/dwm-fork.git',        '~/git/dwm-fork' ],
-    [ 'git@github.com:brenopacheco/st-fork.git',         '~/git/st-fork' ],
-    [ 'git@github.com:brenopacheco/dmenu-fork.git',      '~/git/dmenu-fork' ],
-    [ 'git@github.com:brenopacheco/slstatus-fork.git', '~/git/slstatus-fork' ],
+    [ $GIT . '.dotfiles.git',       '~/.dotfiles' ],
+    [ $GIT . '.password-store.git', '~/.password-store' ],
+    [ $GIT . 'notes.git',           '~/notes' ],
+    [ $GIT . 'dwm-fork.git',        '~/git/dwm-fork' ],
+    [ $GIT . 'st-fork.git',         '~/git/st-fork' ],
+    [ $GIT . 'dmenu-fork.git',      '~/git/dmenu-fork' ],
+    [ $GIT . 'slstatus-fork.git',   '~/git/slstatus-fork' ],
 );
 
 systemctl(
