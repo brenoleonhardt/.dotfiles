@@ -92,3 +92,6 @@ fi
 
 export NODE_OPTIONS="--max-old-space-size=12288"
 # export NODE_AUTH_TOKEN=`pass token/...`
+
+# work-specific environment variables and functions
+test -f ~/work/bashrc && source ~/work/bashrc

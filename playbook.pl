@@ -114,6 +114,7 @@ etc(
     { file => '30-touchpad.conf',         dir => '/etc/X11/xorg.conf.d/' },
     { file => 'ssh_known_hosts',          dir => '/etc/ssh/' },
     { file => 'pacman.conf',              dir => '/etc/' },
+    { file => 'pinentry-generic',         dir => '/usr/local/bin/' },
 );
 
 my $GIT = 'git@github.com:brenoleonhardt/';

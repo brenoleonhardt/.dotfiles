@@ -28,6 +28,9 @@ M.gitlink = function()
 	local remote_url, err = git_exec({ 'remote', 'get-url', 'origin' })
 	if not remote_url then return warn(err) end
 
+	-- Strip -* from github URLs (e.g. github-work.com)
+	remote_url = remote_url:gsub('github%-[^%.]+%.com', 'github.com')
+
 	-- Get current commit SHA
 	local commit_sha, err = git_exec({ 'rev-parse', 'HEAD' })
 	if not commit_sha then return warn(err) end

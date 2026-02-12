@@ -24,7 +24,7 @@ vim.z.packadd({
 	{ 'stevearc/oil.nvim',                             as = 'oil'                    },
 	{ 'j-hui/fidget.nvim',                             as = 'fidget'                 },
 	{ 'nvim-lualine/lualine.nvim',                     as = 'lualine'                },
-	-- { 'zbirenbaum/copilot.lua',                        as = 'copilot'                },
+	{ 'zbirenbaum/copilot.lua',                        as = 'copilot'                },
 	{ 'L3MON4D3/LuaSnip'                                                             },
 	{ 'saadparwaiz1/cmp_luasnip'                                                     },
 	{ 'onsails/lspkind.nvim'                                                         },

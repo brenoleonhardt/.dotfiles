@@ -1,4 +1,8 @@
+if vim.env.COPILOT_ENABLED ~= '1' then return end
+
 require('copilot').setup({
+	copilot_node_command = vim.fn.expand('$HOME')
+		.. '/.asdf/installs/nodejs/23.3.0/bin/node',
 	filetypes = {
 		['*'] = true,
 	},
@@ -40,5 +44,3 @@ vim.api.nvim_create_autocmd({ 'ModeChanged' }, {
 	pattern = '[ns]:i',
 	callback = trigger,
 })
-
-vim.cmd('Copilot disable')

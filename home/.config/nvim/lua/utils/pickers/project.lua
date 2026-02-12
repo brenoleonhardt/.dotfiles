@@ -3,6 +3,7 @@ local M = function()
 		'~/git',
 		'~/sketch',
 		'~/tmp',
+		'~/work',
 	}
 
 	local ignore = { '.asdf' }
