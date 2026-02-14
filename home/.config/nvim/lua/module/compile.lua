@@ -6,6 +6,7 @@
 -- Bang focus on the compilation window
 --
 assert(vim.z.mloaded('log'), 'log module is not loaded')
+local complete_utils = require('utils.complete')
 local strings_util = require('utils.strings')
 
 local M = {}
@@ -27,7 +28,6 @@ local history = (function()
 	end
 	return history
 end)()
-
 
 local function short_path(cwd)
 	local str = strings_util.truncate_path(cwd, MAX_CWD_LEN)
@@ -176,7 +176,6 @@ local function recompile_complete_nr(_, L)
 		end)
 		:rev()
 		:filter(function(item) return string.match(item.cmd, search) end)
-		-- :take(10)
 		:totable()
 
 	local max_len = get_max_len(items)
@@ -192,7 +191,7 @@ for _, command in pairs({ 'C', 'Compile' }) do
 	vim.api.nvim_create_user_command(
 		command,
 		function(tbl) M.compile(tbl.args, vim.fn.getcwd(), tbl.bang) end,
-		{ bang = true, nargs = '+', complete = 'shellcmdline' }
+		{ bang = true, nargs = '+', complete = complete_utils.better_shellcmdline }
 	)
 end
 
