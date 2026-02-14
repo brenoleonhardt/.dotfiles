@@ -92,6 +92,7 @@ vim.opt.showmatch      = true                          -- highlights matches [{(
 vim.opt.signcolumn     = 'yes:1'                       -- keep always one signcolumn
 vim.opt.smartcase      = true                          -- smart case for search
 vim.opt.splitright     = true                          -- :vsp creates right split
+vim.opt.splitkeep      = 'topline'                     -- when splitting, keep window static
 vim.opt.suffixesadd    = ''                            -- clean suffixes
 vim.opt.tabstop        = 4                             -- display tab as 4 spaces
 vim.opt.tags           = 'tags;~'                      -- search tags file up to $HOME

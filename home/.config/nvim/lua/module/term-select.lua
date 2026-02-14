@@ -12,20 +12,25 @@ M.run = function(opts)
 	assert(opts, 'opts is required')
 	assert(opts.cmd, 'cmd is required')
 	assert(opts.on_result, 'on_result is required')
+	opts.cwd = opts.cwd or vim.fn.getcwd()
+	opts.rows = opts.rows or 10
 
-	local cwd = opts.cwd or vim.fn.getcwd()
-	local rows = opts.rows or 10
 	local tmp = vim.fn.tempname()
-	local cmd = 'botright term cd ' .. cwd .. ' && ' .. opts.cmd .. ' > ' .. tmp
-	local mode = nil
+
+	local cmd = string.format(
+		'botright split | resize %d | enew | chdir %s | term %s > %s',
+		opts.rows,
+		opts.cwd,
+		opts.cmd,
+		tmp
+	)
 
 	vim.cmd(cmd)
-	vim.cmd('resize ' .. rows)
 
 	local bufnr = vim.fn.bufnr()
+	local mode = nil
 
 	local cleanup = function()
-		if opts.cleanup == false then return end
 		vim.fn.delete(tmp)
 		vim.api.nvim_buf_delete(bufnr, { force = true })
 	end
@@ -59,6 +64,7 @@ M.run = function(opts)
 		['<C-v>'] = 'vsplit',
 		['<C-t>'] = 'tabedit',
 		['<C-q>'] = 'quickfix',
+		['<C-x>'] = 'kill',
 		['<CR>'] = 'edit',
 	}
 
@@ -79,8 +85,7 @@ end
 vim.api.nvim_create_user_command('TermSelectSimple', function()
 	M.run({
 		cmd = 'ls | fzf --multi --preview "cat {}"',
-		cleanup = false, -- optional, default to true
-		rows = 20,
+		cwd = '/tmp',
 		on_result = function(results, mode)
 			print('Selected:', table.concat(results, ', '), 'Mode:', mode)
 		end,
@@ -90,76 +95,13 @@ end, {})
 vim.api.nvim_create_user_command('TermSelectLiveGrep', function()
 	M.run({
 		cmd = 'fzf --phony --bind "change:reload:rg --line-number --no-heading {q} || true"',
-		cleanup = false, -- optional, default to true
-		rows = 20,
 		on_result = function(results, mode)
 			print('Selected:', table.concat(results, ', '), 'Mode:', mode)
 		end,
 	})
 end, {})
 
-
 ---@diagnostic disable-next-line: duplicate-set-field
--- vim.ui.select = function (items, opts, on_choice)
-local select = function (items, opts, on_choice)
-	local prompt = opts and opts.prompt or 'Select:'
-	local format_item = opts.format_item or function(item) return item end
-
-	-- for now, let's consider we'll always feed a list of items
-	
-
-	-- we need to feed fzf:
-	-- 1;format_item(item)
-	
-
-	local tmp = vim.fn.tempname()
-	for _, item in ipairs(items) do 
-		-- append to tmp file
-		
-	end
-	
-
-	M.run({
-		cmd = [[fzf --with-nth=2.. --delimiter=$';']]
-	})
-	
-end
-
-
-
--- vim.ui.select({items}, {opts}, {on_choice})                  *vim.ui.select()*
---     Prompts the user to pick from a list of items, allowing arbitrary
---     (potentially asynchronous) work until `on_choice`.
-
---     Example: >lua
---         vim.ui.select({ 'tabs', 'spaces' }, {
---             prompt = 'Select tabs or spaces:',
---             format_item = function(item)
---                 return "I'd like to choose " .. item
---             end,
---         }, function(choice)
---             if choice == 'spaces' then
---                 vim.o.expandtab = true
---             else
---                 vim.o.expandtab = false
---             end
---         end)
--- <
-
---     Parameters: ~
---       • {items}      (`any[]`) Arbitrary items
---       • {opts}       (`table`) Additional options
---                      • prompt (string|nil) Text of the prompt. Defaults to
---                        `Select one of:`
---                      • format_item (function item -> text) Function to format
---                        an individual item from `items`. Defaults to
---                        `tostring`.
---                      • kind (string|nil) Arbitrary hint string indicating the
---                        item shape. Plugins reimplementing `vim.ui.select` may
---                        wish to use this to infer the structure or semantics of
---                        `items`, or the context in which select() was called.
---       • {on_choice}  (`fun(item: T?, idx: integer?)`) Called once the user
---                      made a choice. `idx` is the 1-based index of `item`
---                      within `items`. `nil` if the user aborted the dialog.
+vim.ui.select = function(items, opts, on_choice) end
 
 return M

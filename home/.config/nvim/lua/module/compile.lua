@@ -15,6 +15,20 @@ local MAX_CWD_LEN = 30
 local PRESERVE_HISTORY = true
 local HISTORY_FILE = vim.fn.stdpath('data') .. '/compile_history'
 
+---@diagnostic disable-next-line: redefined-local
+local function dedupe(history)
+	local cache = {}
+	for i = #history, 1, -1 do
+		local item = history[i]
+		local key = item.cwd .. '//' .. item.cmd
+		if cache[key] ~= nil then
+			table.remove(history, i)
+		else
+			cache[key] = true
+		end
+	end
+end
+
 local history = (function()
 	if not PRESERVE_HISTORY then return {} end
 	local exists = vim.fn.filereadable(HISTORY_FILE) == 1
@@ -26,6 +40,7 @@ local history = (function()
 		local command = vim.json.decode(command_str)
 		table.insert(history, command)
 	end
+	dedupe(history)
 	return history
 end)()
 
@@ -43,20 +58,6 @@ local function find_compile_window()
 		if cmd ~= '' then return win_id end
 	end
 	return nil
-end
-
----@diagnostic disable-next-line: redefined-local
-local function remove_history_duplicates(history)
-	local cache = {}
-	for i = #history, 1, -1 do
-		local item = history[i]
-		local key = item.cwd .. '//' .. item.cmd
-		if cache[key] ~= nil then
-			table.remove(history, i)
-		else
-			cache[key] = true
-		end
-	end
 end
 
 local function itemize(max_len)
@@ -81,38 +82,6 @@ local function get_max_len(items)
 		.iter(items)
 		:map(function(item) return string.len(item.short) - item.offset end)
 		:fold(0, math.max)
-end
-
-M.open_compile = function()
-	local items = vim
-		.iter(history)
-		:enumerate()
-		:filter(function(_, item) return vim.fn.bufexists(item.bufnr) == 1 end)
-		:filter(
-			function(_, item) return vim.fn.getbufvar(item.bufnr, 'compile') ~= '' end
-		)
-		:map(function(idx, item)
-			item['idx'] = idx
-			return item
-		end)
-		:rev()
-		:totable()
-	if #items == 0 then return warn('No compile buffer available') end
-	vim.ui.select(items, {
-		prompt = 'Run:',
-		format_item = function(item, _, get_filtered_entries)
-			-- get_filtered_entries is a hack on ./telescope-select.lua:70
-			return itemize(get_max_len(get_filtered_entries()))(item.idx, item)
-		end,
-	}, function(item)
-		local win_id = find_compile_window()
-		if win_id ~= nil then
-			vim.api.nvim_set_current_win(win_id)
-			vim.cmd('silent! b ' .. item.bufnr)
-		else
-			vim.cmd('silent! bo split | b ' .. item.bufnr)
-		end
-	end)
 end
 
 M.compile = function(cmd, cwd, focus)
@@ -141,7 +110,7 @@ M.compile = function(cmd, cwd, focus)
 		offset = offset,
 	}
 	table.insert(history, command)
-	remove_history_duplicates(history)
+	dedupe(history)
 	if PRESERVE_HISTORY then
 		local file = io.open(HISTORY_FILE, 'a')
 		if file then
@@ -202,5 +171,35 @@ for _, command in pairs({ 'R', 'Recompile' }) do
 		{ bang = true, nargs = '?', complete = recompile_complete_nr }
 	)
 end
+
+vim.api.nvim_create_user_command('Compiled', function(tbl)
+	local index, _ = tbl.args:match('^%[#(%d+)%].*%$%s*(.*)$')
+	if #tbl.fargs == 0 then return end
+	local item = history[tonumber(index)]
+	if not item then return warn('Invalid compile history argument') end
+
+	local win_id = find_compile_window()
+	if win_id ~= nil then
+		vim.api.nvim_set_current_win(win_id)
+		vim.cmd('silent! b ' .. item.bufnr)
+	else
+		vim.cmd('silent! bo split | b ' .. item.bufnr)
+	end
+end, {
+	bang = false,
+	nargs = '+',
+	complete = complete_utils.b_like_complete(function()
+		return vim
+			.iter(history)
+			:enumerate()
+			:filter(function(_, item) return vim.fn.bufexists(item.bufnr) == 1 end)
+			:filter(
+				function(_, item) return vim.fn.getbufvar(item.bufnr, 'compile') ~= '' end
+			)
+			:map(function(idx, item) return itemize(0)(idx, item) end)
+			:rev()
+			:totable()
+	end),
+})
 
 return M

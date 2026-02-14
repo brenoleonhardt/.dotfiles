@@ -42,7 +42,7 @@ local keyboard = {
       { { 'n', 'x' }, '<leader>/',      maps.run_grep,           { desc = ' grep',                } },
       { { 'n', 'x' }, '<leader>]',      maps.compile,            { desc = ' compile',             } },
       { { 'n'      }, '<leader>[',      maps.recompile,          { desc = ' recompile',           } },
-      { { 'n',     }, '<c-p>',          maps.open_compile,       { desc = ' open compile'         } },
+      { { 'n',     }, '<c-p>',          maps.compiled,           { desc = ' open compile'         } },
       { { 'n',     }, '<leader>\\',     maps.npm_test_file,      { desc = ' npm-test-file'        } }, -- revisit (use test)
       { { 'n',     }, '<leader>?',      maps.help('<leader>'),   { desc = ' which-key'            } },
     }, -- ]]
