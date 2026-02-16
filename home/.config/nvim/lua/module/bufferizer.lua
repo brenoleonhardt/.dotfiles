@@ -23,6 +23,8 @@ local function messages() bufferize({ fargs = { 'messages' } }) end
 
 vim.api.nvim_create_user_command('Bufferize', bufferize, { nargs = '+' })
 vim.api.nvim_create_user_command('B', bufferize, { nargs = '+' })
+
+-- TODO: remove once vim._core.ui2 is enabled
 vim.api.nvim_create_user_command('Messages', messages, { nargs = 0 })
 
 vim.api.nvim_create_user_command('Bclean', function()

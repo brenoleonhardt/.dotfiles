@@ -1,8 +1,8 @@
 # shellcheck disable=all
 
 pkgname=neovim-fork
-pkgver=0.11.0
-pkgrel=1893
+pkgver=0.11.6
+pkgrel=0
 pkgdesc='Fork of Vim aiming to improve user experience, plugins, and GUIs.'
 arch=(x86_64)
 url='https://neovim.io'
@@ -12,7 +12,7 @@ options=('!debug')
 
 source=("https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz")
 
-sha256sums=('91ef9ff1f58ddacc5f2ee73699867977ba0d479b01c641bd987f60e61cc48dd2')
+sha256sums=('2fc90b962327f73a78afbfb8203fd19db8db9cdf4ee5e2bef84704339add89cc')
 
 check() {
   cd nvim-linux-x86_64
