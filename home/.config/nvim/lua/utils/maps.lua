@@ -362,10 +362,7 @@ M.compile = function()
 end
 
 M.recompile = function() vim.cmd('Recompile') end
-M.compiled = function()
-	local cmd = vim.api.nvim_replace_termcodes(':Compiled ', true, true, true)
-	vim.api.nvim_feedkeys(cmd, 'n', true)
-end
+M.compiled = function() vim.api.nvim_input(':Compiled ') end
 
 M.file_url = function()
 	if vim.fn.mode() == 'n' then

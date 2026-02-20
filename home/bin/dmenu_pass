@@ -18,7 +18,7 @@ shopt -s nullglob globstar
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
 
 password_files=()
-for file in $(cd "$prefix" && fd -p '/(otp|web)/.*\.gpg$'); do
+for file in $(cd "$prefix" && fd -p '/(otp|web|infra)/.*\.gpg$'); do
 	IFS='/' read -r type email target <<<"$file"
 	if [[ "$type" == "rec" ]]; then
 		continue
