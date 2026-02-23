@@ -84,7 +84,8 @@ pacman(
     'man-pages',
 
     # new packages
-    'isync', 'neomutt', 'notmuch', 'msmtp'
+    'isync', 'neomutt', 'notmuch', 'msmtp',
+    'browserpass', 'browserpass-chromium', 'browserpass-firefox'
 );
 
 dirs(

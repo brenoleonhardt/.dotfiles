@@ -21,4 +21,4 @@ pasystray \
 	--volume-inc=3 & disown # pulseaudio volume applet
 redshift-gtk -l 41.1691:-8.6793 -g 0.75 & disown
 
-~/bin/reset-keyboard
+~/bin/reset-keyboard -x

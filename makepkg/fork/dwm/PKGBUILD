@@ -1,7 +1,7 @@
 # shellcheck disable=all
 
 pkgname=dwm-fork
-pkgver=6.5.r34.d0297c1
+pkgver=6.5.r40.4af3103
 pkgrel=1
 pkgdesc='Dynamic window manager (dwm) fork'
 url='https://github.com/brenopacheco/dwm-fork'

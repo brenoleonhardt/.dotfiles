@@ -15,6 +15,7 @@ APPS=(
 	'cursor.desktop'
 	'discord.desktop'
 	'drovio.desktop'
+	'emacs.desktop'
 	'firefox.desktop'
 	'gparted.desktop'
 	'libreoffice-base.desktop'
