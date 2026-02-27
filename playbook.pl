@@ -85,7 +85,10 @@ pacman(
 
     # new packages
     'isync', 'neomutt', 'notmuch', 'msmtp',
-    'browserpass', 'browserpass-chromium', 'browserpass-firefox'
+    'browserpass', 'browserpass-chromium', 'browserpass-firefox',
+
+    # gnupg/nitrokey
+    'gnupg', 'ccid', 'pcsclite'
 );
 
 dirs(
@@ -135,10 +138,9 @@ systemctl(
     root => [
         'bluetooth.service',
         'cronie.service',
-
         'docker.service',
         'lightdm.service',
-
+        'pcscd.service'
         # 'sshd.service'
     ]
 );
@@ -659,6 +661,12 @@ sub rust {
     $_->() for @tasks;
 }
 
+# with nitrokey, we need to do:
+# 0. gpg --card-status
+# 1. gpg --edit-card
+#    gpg/card> fetch
+# 2. gpg --edit-key BCECC779EE234BC0
+#    gpg> trust
 sub gpg {
     my @tasks = ();
     my ($fingerprint) =
