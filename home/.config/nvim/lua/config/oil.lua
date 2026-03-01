@@ -5,16 +5,15 @@ oil.setup({
 	-- TODO: move this to keymap
 	keymaps = {
 		['-'] = 'actions.parent',
-		-- ['e'] = 'actions.select',
 		['<cr>'] = 'actions.select',
-
 		['<c-s>'] = 'actions.select_split',
 		['<c-t>'] = 'actions.select_tab',
+
 		["<C-l>"] = "actions.preview",
+		["<BS>"] = "actions.preview",
 
 		['g?'] = 'actions.show_help',
 		['gx'] = 'actions.open_external',
-		['<c-c>'] = 'actions.close', -- not needed, C-o/C-i does the job
 		['zh'] = 'actions.toggle_hidden',
 	},
 	buf_options = {
