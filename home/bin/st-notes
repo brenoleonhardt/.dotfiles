@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+session="#notes"
+if ! tmux has-session -t="$session" 2>/dev/null; then
+	tmux new-session -ds "$session" -c "$HOME/notes"
+	tmux send-keys -t "${session}" 'nvim ~/notes/tvmpwdt8-notes.md' C-m
+fi
+
+setsid st -n term-floating -e tmux attach -t "$session" >/dev/null 2>&1

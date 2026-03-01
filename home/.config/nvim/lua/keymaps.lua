@@ -157,6 +157,7 @@ local keyboard = {
       { {      'x' }, '=',           maps.run_format,                        },
       { { 's',     }, '<bs>',       '<bs>i'                                  },
       { { 'x',     }, '*',          [["zy/\V<C-r>=escape(@z, '\/')<cr><cr>]] },
+      { { 'n',     }, '<leader><leader>', ':'                                },
 
     }, -- ]]
     cmdline = { -- [[
@@ -251,10 +252,12 @@ for i = 1, 9 do
 		vim.cmd('mark ' .. mark)
 		vim.notify('Set mark ' .. mark, vim.log.levels.INFO)
 	end, { desc = 'Set mark ' .. mark })
-	vim.keymap.set('n', '`' .. tostring(i), function()
-		vim.cmd('normal! `' .. mark)
-		vim.notify('Jumped to mark ' .. mark, vim.log.levels.INFO)
-	end, { desc = 'Jump to mark ' .. mark })
+	for _, key in ipairs({ [[']], [[`]] }) do
+		vim.keymap.set('n', key .. tostring(i), function()
+			vim.cmd('normal! ' .. key .. mark)
+			vim.notify('Jumped to mark ' .. mark, vim.log.levels.INFO)
+		end, { desc = 'Jump to mark ' .. mark })
+	end
 end
 -- ]]
 
