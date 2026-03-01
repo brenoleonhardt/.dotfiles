@@ -244,7 +244,7 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileType' }, {
 })
 -- ]]
 
---[[ -- 1-9 marks override with A-I
+---[[ -- 1-9 marks override with A-I
 for i = 1, 9 do
 	local mark = string.char(string.byte('A') + i - 1)
 	vim.keymap.set('n', 'm' .. tostring(i), function()
@@ -256,7 +256,19 @@ for i = 1, 9 do
 		vim.notify('Jumped to mark ' .. mark, vim.log.levels.INFO)
 	end, { desc = 'Jump to mark ' .. mark })
 end
-]]
+-- ]]
+
+
+-- stylua: ignore
+for _, motion in ipairs({
+  "}", "{", -- paragraph motions
+  ")", "(", -- sentence motions
+  "]]", "[[", "][", "[]", -- section / function motions
+  "]m", "[m", "]M", "[M", -- method motions
+  "]}", "[{", -- block motions (these actually may be fine to keep)
+}) do
+  vim.keymap.set("n", motion, "<cmd>keepjumps normal! " .. motion .. "<CR>")
+end
 
 --[[ *:map-arguments* reference
   buffer: current buffer only                                   (default false)
