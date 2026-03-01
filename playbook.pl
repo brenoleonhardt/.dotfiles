@@ -14,6 +14,14 @@
 #        obs-backgroundremoval
 #        stremio
 #        zoom
+#
+# NOTE:
+# with nitrokey, we need to do:
+# 0. gpg --card-status
+# 1. gpg --edit-card
+#    gpg/card> fetch
+# 2. gpg --edit-key BCECC779EE234BC0
+#    gpg> trust
 
 # Playbook =============================================================== {{{
 configure(
@@ -23,73 +31,73 @@ configure(
     debug => $ENV{'DEBUG'},
 );
 
-pacman(
-    'arandr',                 'base',
-    'base-devel',             'bash-completion',
-    'bat',                    'bear',
-    'blueman',                'bluez',
-    'bluez-utils',            'bottom',
-    'chromium',               'clang',
-    'cmake',                  'conky',
-    'cronie',                 'ctags',
-    'docker',                 'dosfstools',
-    'dunst',                  'dzen2',
-    'fd',                     'feh',
-    'file-roller',            'firefox',
-    'fzf',                    'git',
-    'gnome-backgrounds',      'go',
-    'gopls',                  'gparted',
-    'gpick',                  'gtk2',
-    'gtk3',                   'gtk4',
-    'gvim',                   'helm',
-    'htop',                   'imagemagick',
-    'inotify-tools',          'jq',
-    'k9s',                    'lf',
-    'lightdm',                'lightdm-gtk-greeter',
-    'lldb',                   'lsof',
-    'lua',                    'lua51',
-    'lua52',                  'lua53',
-    'luajit',                 'lua-language-server',
-    'luarocks',               'man-db',
-    'moreutils',              'musl',
-    'ncdu',                   'net-tools',
-    'network-manager-applet', 'ninja',
-    'noto-fonts-emoji',       'otf-comicshanns-nerd',
-    'ttf-indic-otf',          'noto-fonts-cjk',
-    'pamixer',                'parted',
-    'pass',                   'pass-otp',
-    'pasystray',              'pavucontrol',
-    'pdftk',                  'perl',
-    'perl-tidy',              'python',
-    'python-pipx',            'redshift',
-    'renameutils',            'ripgrep',
-    'rsync',                  'rustup',
-    'screengrab',             'shellcheck',
-    'shfmt',                  'sqlitebrowser',
-    'stow',                   'stylua',
-    'sxiv',                   'tmux',
-    'tree',                   'ttf-3270-nerd',
-    'ttf-firacode-nerd',      'udiskie',
-    'unrar',                  'unzip',
-    'usbutils',               'v4l2loopback-dkms',
-    'wget',                   'wmctrl',
-    'xarchiver',              'xclip',
-    'xdotool',                'xorg-server-xephyr',
-    'xorg-xev',               'xorg-xkill',
-    'xorg-xlsclients',        'xorg-xmodmap',
-    'xorg-xsetroot',          'xorg-xwininfo',
-    'zathura',                'zathura-pdf-mupdf',
-    'zip',                    'zk',
-    'cpanminus',              'perl-local-lib',
-    'man-pages',
+# pacman(
+#     'arandr',                 'base',
+#     'base-devel',             'bash-completion',
+#     'bat',                    'bear',
+#     'blueman',                'bluez',
+#     'bluez-utils',            'bottom',
+#     'chromium',               'clang',
+#     'cmake',                  'conky',
+#     'cronie',                 'ctags',
+#     'docker',                 'dosfstools',
+#     'dunst',                  'dzen2',
+#     'fd',                     'feh',
+#     'file-roller',            'firefox',
+#     'fzf',                    'git',
+#     'gnome-backgrounds',      'go',
+#     'gopls',                  'gparted',
+#     'gpick',                  'gtk2',
+#     'gtk3',                   'gtk4',
+#     'gvim',                   'helm',
+#     'htop',                   'imagemagick',
+#     'inotify-tools',          'jq',
+#     'k9s',                    'lf',
+#     'lightdm',                'lightdm-gtk-greeter',
+#     'lldb',                   'lsof',
+#     'lua',                    'lua51',
+#     'lua52',                  'lua53',
+#     'luajit',                 'lua-language-server',
+#     'luarocks',               'man-db',
+#     'moreutils',              'musl',
+#     'ncdu',                   'net-tools',
+#     'network-manager-applet', 'ninja',
+#     'noto-fonts-emoji',       'otf-comicshanns-nerd',
+#     'ttf-indic-otf',          'noto-fonts-cjk',
+#     'pamixer',                'parted',
+#     'pass',                   'pass-otp',
+#     'pasystray',              'pavucontrol',
+#     'pdftk',                  'perl',
+#     'perl-tidy',              'python',
+#     'python-pipx',            'redshift',
+#     'renameutils',            'ripgrep',
+#     'rsync',                  'rustup',
+#     'screengrab',             'shellcheck',
+#     'shfmt',                  'sqlitebrowser',
+#     'stow',                   'stylua',
+#     'sxiv',                   'tmux',
+#     'tree',                   'ttf-3270-nerd',
+#     'ttf-firacode-nerd',      'udiskie',
+#     'unrar',                  'unzip',
+#     'usbutils',               'v4l2loopback-dkms',
+#     'wget',                   'wmctrl',
+#     'xarchiver',              'xclip',
+#     'xdotool',                'xorg-server-xephyr',
+#     'xorg-xev',               'xorg-xkill',
+#     'xorg-xlsclients',        'xorg-xmodmap',
+#     'xorg-xsetroot',          'xorg-xwininfo',
+#     'zathura',                'zathura-pdf-mupdf',
+#     'zip',                    'zk',
+#     'cpanminus',              'perl-local-lib',
+#     'man-pages',
 
-    # new packages
-    'isync', 'neomutt', 'notmuch', 'msmtp',
-    'browserpass', 'browserpass-chromium', 'browserpass-firefox',
+#     # new packages
+#     'isync',       'neomutt', 'notmuch', 'msmtp',
+#     'browserpass', 'browserpass-chromium', 'browserpass-firefox',
 
-    # gnupg/nitrokey
-    'gnupg', 'ccid', 'pcsclite'
-);
+#     # gnupg/nitrokey
+#     'gnupg', 'ccid', 'pcsclite'
+# );
 
 dirs(
     # default directories
@@ -99,8 +107,7 @@ dirs(
     '~/.config',
     '~/.config/systemd/user',
     '~/.gnupg',
-    '~/.ssh',
-    '~/.perl5'
+    '~/.ssh'
 );
 
 stow(
@@ -109,58 +116,59 @@ stow(
     package => 'home',
 );
 
-etc(
-    { file => 'lightdm-gtk-greeter.conf', dir => '/etc/lightdm/' },
-    { file => '10-keyboard.rules',        dir => '/etc/udev/rules.d/' },
-    { file => '40-wacom.rules',           dir => '/etc/udev/rules.d/' },
-    { file => '10-keyboard.conf',         dir => '/etc/X11/xorg.conf.d/' },
-    { file => '20-monitor.conf',          dir => '/etc/X11/xorg.conf.d/' },
-    { file => '30-touchpad.conf',         dir => '/etc/X11/xorg.conf.d/' },
-    { file => 'ssh_known_hosts',          dir => '/etc/ssh/' },
-    { file => 'pacman.conf',              dir => '/etc/' },
-    { file => 'pinentry-generic',         dir => '/usr/local/bin/' },
-);
+# etc(
+#     { file => 'lightdm-gtk-greeter.conf', dir => '/etc/lightdm/' },
+#     { file => '10-keyboard.rules',        dir => '/etc/udev/rules.d/' },
+#     { file => '40-wacom.rules',           dir => '/etc/udev/rules.d/' },
+#     { file => '10-keyboard.conf',         dir => '/etc/X11/xorg.conf.d/' },
+#     { file => '20-monitor.conf',          dir => '/etc/X11/xorg.conf.d/' },
+#     { file => '30-touchpad.conf',         dir => '/etc/X11/xorg.conf.d/' },
+#     { file => 'ssh_known_hosts',          dir => '/etc/ssh/' },
+#     { file => 'pacman.conf',              dir => '/etc/' },
+#     { file => 'pinentry-generic',         dir => '/usr/local/bin/' },
+# );
 
 my $GIT = 'git@github.com:brenoleonhardt/';
 
-git(
-    [ $GIT . '.dotfiles.git',       '~/.dotfiles' ],
-    [ $GIT . '.password-store.git', '~/.password-store' ],
-    [ $GIT . 'notes.git',           '~/notes' ],
-    [ $GIT . 'dwm-fork.git',        '~/git/dwm-fork' ],
-    [ $GIT . 'st-fork.git',         '~/git/st-fork' ],
-    [ $GIT . 'dmenu-fork.git',      '~/git/dmenu-fork' ],
-    [ $GIT . 'slstatus-fork.git',   '~/git/slstatus-fork' ],
-);
+# git(
+#     [ $GIT . '.dotfiles.git',       '~/.dotfiles' ],
+#     [ $GIT . '.password-store.git', '~/.password-store' ],
+#     [ $GIT . 'notes.git',           '~/notes' ],
+#     [ $GIT . 'dwm-fork.git',        '~/git/dwm-fork' ],
+#     [ $GIT . 'st-fork.git',         '~/git/st-fork' ],
+#     [ $GIT . 'dmenu-fork.git',      '~/git/dmenu-fork' ],
+#     [ $GIT . 'slstatus-fork.git',   '~/git/slstatus-fork' ],
+# );
 
 systemctl(
     user => ['gpg-agent.target'],
     root => [
         'bluetooth.service',
         'cronie.service',
-        'docker.service',
+        # 'docker.service',
         'lightdm.service',
         'pcscd.service'
+
         # 'sshd.service'
     ]
 );
 
-makepkg(
-    'makepkg/fork/dmenu',
-    'makepkg/fork/dwm',
-    'makepkg/fork/slstatus',
-    'makepkg/fork/st',
+# makepkg(
+#     'makepkg/fork/dmenu',
+#     'makepkg/fork/dwm',
+#     'makepkg/fork/slstatus',
+#     'makepkg/fork/st',
 
-    'makepkg/misc/neovim',
-    'makepkg/misc/awscliv2',
+#     'makepkg/misc/neovim',
+#     'makepkg/misc/awscliv2',
 
-    'makepkg/aur/asdf',
-    'makepkg/aur/bun',
-    'makepkg/aur/lls-addons',
-    'makepkg/aur/rose-pine-gtk-theme-full',
-    'makepkg/aur/slack-desktop',
-    'makepkg/aur/xcursor-breeze',
-);
+#     'makepkg/aur/asdf',
+#     'makepkg/aur/bun',
+#     'makepkg/aur/lls-addons',
+#     'makepkg/aur/rose-pine-gtk-theme-full',
+#     'makepkg/aur/slack-desktop',
+#     'makepkg/aur/xcursor-breeze',
+# );
 
 asdf(
     {
@@ -201,21 +209,19 @@ go(
     [ 'yq',             'github.com/mikefarah/yq/v4@latest' ]
 );
 
-rust(
-    {
-        toolchains => [
-            "stable-x86_64-unknown-linux-gnu",
-            "nightly-x86_64-unknown-linux-gnu"
-        ],
-        default    => "stable-x86_64-unknown-linux-gnu",
-        components => [
-            "rust-analyzer-x86_64-unknown-linux-gnu",
-            "rust-std-x86_64-unknown-linux-musl"
-        ]
-    }
-);
-
-gpg();
+# rust(
+#     {
+#         toolchains => [
+#             "stable-x86_64-unknown-linux-gnu",
+#             "nightly-x86_64-unknown-linux-gnu"
+#         ],
+#         default    => "stable-x86_64-unknown-linux-gnu",
+#         components => [
+#             "rust-analyzer-x86_64-unknown-linux-gnu",
+#             "rust-std-x86_64-unknown-linux-musl"
+#         ]
+#     }
+# );
 
 # }}} ------------------------------------------------------------------------
 # Library ================================================================ {{{
@@ -659,38 +665,6 @@ sub rust {
     }
     say "[-] rust";
     $_->() for @tasks;
-}
-
-# with nitrokey, we need to do:
-# 0. gpg --card-status
-# 1. gpg --edit-card
-#    gpg/card> fetch
-# 2. gpg --edit-key BCECC779EE234BC0
-#    gpg> trust
-sub gpg {
-    my @tasks = ();
-    my ($fingerprint) =
-      `gpgconf --list-options gpg` =~ /^default-key:.*:"(\w+)$/m
-      or die "gpg has no default-key configured";
-    my ($keygrip) =
-      `gpg --with-keygrip -k $fingerprint` =~
-      /^sub .*\[A\]\n\s*Keygrip = (\w+)/m
-      or die "keygrip not found for subkey of type [A] ($fingerprint)";
-
-    if ( !_check("gpg -k $fingerprint")->{ok} ) {
-        my $srckey  = "/tmp/$fingerprint.key";
-        my $dstkey  = "/home/$cfg{user}/$fingerprint.key";
-        my $host    = "$cfg{user}\@$cfg{host}";
-        my @message = (
-            "Error: gpg key must be manually transfered. Run the following:\n",
-            "gpg --export-secret-key --armor $fingerprint > $srckey &&",
-            "  scp $srckey $host:$dstkey &&",
-            "  rm $srckey &&",
-            "  ssh -t $host 'gpg --import $dstkey' &&",
-            "  ssh $host 'rm $dstkey'\n\n"
-        );
-        die join( "\n", @message );
-    }
 }
 
 # }}} ------------------------------------------------------------------------

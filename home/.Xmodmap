@@ -12,7 +12,9 @@ clear shift
 
 keycode 66  = Control_L
 keycode 108 = Shift_L
-! -keycode 94  = backslash bar asciitilde apostrophe
+
+! left <> on lenovo ideapad
+keycode 94  = backslash bar asciitilde apostrophe
 
 add control = Control_L Control_R
 add shift   = Shift_L Shift_R

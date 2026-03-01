@@ -60,6 +60,9 @@ if ! pgrep gpg-agent >/dev/null 2>&1; then
 			"  systemctl --user enable gpg-agent.target" \
 			"  systemctl --user start gpg-agent.target" >&2
 	fi
+else
+	# refresh agent stale TTY/display to show the PIN prompt during SSH authentication
+	gpg-connect-agent updatestartuptty /bye >/dev/null # required for scdaemon
 fi
 
 append_path() {
