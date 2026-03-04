@@ -2,15 +2,18 @@
 
 use Getopt::Long qw(GetOptions);
 use Pod::Usage   qw(pod2usage);
+use IPC::Run     qw(run);
 use builtin      qw(trim);
 use feature 'say';
 
 my $help = 0;
 my $man  = 0;
 my $list = 0;
+my $iter = 0;
 GetOptions(
     'h|help' => \$help,
     'l|list' => \$list,
+    'i|iter' => \$iter,
     'man'    => \$man,
 ) or pod2usage(2);
 pod2usage(1)               if $help;
@@ -48,21 +51,26 @@ if ($list) {
 
 my $profile = shift @ARGV;
 
+if (!$profile && $iter) {
+    my $input = join( "\n", map { "$_->{name}" } @profiles );
+    run [ "dmenu", "-p", "Profile:" ], \$input, \$profile;
+    chomp($profile);
+}
+
 pod2usage() unless ($profile);
 
-my @matches = map {
-    $profile eq $_->{name} ? $_->{path} : ()
-} @profiles;
+my @matches = map { $profile eq $_->{name} ? $_->{path} : () } @profiles;
 
-if (!@matches) {
+if ( !@matches ) {
     pod2usage("No profile matches '$profile'");
 }
 
-if (length (@matches) > 1) {
+if ( length(@matches) > 1 ) {
     pod2usage("Multiple profiles match '$profile'");
 }
 
-system(@matches[0] . " && feh --bg-fill /usr/share/backgrounds/gnome/blobs-l.svg");
+system( @matches[0]
+      . " && feh --bg-fill /usr/share/backgrounds/gnome/blobs-l.svg" );
 
 __END__
 
