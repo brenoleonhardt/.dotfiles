@@ -1,12 +1,5 @@
 --- Plugins
 
--- TODO:
--- + replace completion plugin with https://cmp.saghen.dev/
--- + replace nvim-lspconfig with v0.11 built-in lsp.config
---   https://github.com/neovim/neovim/discussions/32523#discussioncomment-12256014
--- + replace hedyhli/outline.nvim
--- + verify which modules are being used
-
 -- stylua: ignore start
 vim.z.packadd({
 	{ 'nvim-lua/plenary.nvim'                                                        },
@@ -33,9 +26,8 @@ vim.z.packadd({
 	{ 'hrsh7th/cmp-path'                                                             },
 	{ 'hrsh7th/nvim-cmp'                                                             },
 	{ 'windwp/nvim-autopairs'                                                        },
-	-- { 'Saghen/blink.cmp',                              as = 'blink'                  },
 	{ 'b0o/schemastore.nvim',                          as = 'schemastore'            },
-	{ 'folke/neodev.nvim',                             as = 'neodev'                 }, -- TODO:replace with 'folke/lazydev.nvim' and make vim global (slow loading)
+	{ 'folke/neodev.nvim',                             as = 'neodev'                 },
 	{ 'neovim/nvim-lspconfig'                                                        },
 	{ 'ray-x/lsp_signature.nvim',                      as = 'lsp-signature'          },
 	{ 'chrishrb/gx.nvim',                              as = 'gx'                     },

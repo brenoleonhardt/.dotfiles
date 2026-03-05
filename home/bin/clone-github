@@ -37,7 +37,7 @@ success() {
 
 TOKEN=$(pass show "token/brenoleonhardt@gmail.com/gh-ro" 2>&1) || die "Failed to retrieve GitHub token: $TOKEN"
 
-GITHUB_REPOS=$({ GH_TOKEN="$TOKEN" gh repo list brenopacheco \
+GITHUB_REPOS=$({ GH_TOKEN="$TOKEN" gh repo list brenoleonhardt \
 	--limit "$REPO_LIMIT" \
 	--json name,isArchived \
 	--jq '.[] | select(.isArchived==false) | .name' |
@@ -54,7 +54,7 @@ REPO_NAME=$({
 }) 2>&1
 
 if [[ -n "$REPO_NAME" ]]; then
-	OUT=$(git clone "git@github.com:brenopacheco/${REPO_NAME}.git" "$GIT_DIR/$REPO_NAME" 2>&1) ||
+	OUT=$(git clone "git@github.com:brenoleonhardt/${REPO_NAME}.git" "$GIT_DIR/$REPO_NAME" 2>&1) ||
 		die "Failed to clone $REPO_NAME: $OUT"
 	success "Cloned $REPO_NAME into $GIT_DIR/$REPO_NAME"
 fi

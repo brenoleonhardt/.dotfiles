@@ -111,7 +111,7 @@ vim.opt.wildignore     = {                             -- ignore pattern using v
   '*.obj'
 }
 vim.opt.wildmenu       = true                          -- tab help in cmdline
-vim.opt.wildmode       = 'full'                        -- how wildmenu appears
+vim.opt.wildmode       = 'longest:full,full'           -- how wildmenu appears
 
 vim.opt.shada = "!,'100,<50,s10,h"
 
