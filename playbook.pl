@@ -141,13 +141,16 @@ my $GIT = 'git@github.com:brenoleonhardt/';
 # );
 
 systemctl(
-    user => ['gpg-agent.target'],
+    user => [
+        'gpg-agent.target',
+        'emacs.service'
+    ],
     root => [
         'bluetooth.service',
         'cronie.service',
         # 'docker.service',
         'lightdm.service',
-        'pcscd.service'
+        'pcscd.service' # gpg-card
 
         # 'sshd.service'
     ]

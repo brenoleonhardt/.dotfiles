@@ -1,0 +1,15 @@
+[Unit]
+Description=Emacs text editor daemon
+Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
+After=default.target
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/emacs --daemon
+ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
+Restart=on-failure
+TimeoutStartSec=10
+TimeoutStopSec=10
+
+[Install]
+WantedBy=default.target

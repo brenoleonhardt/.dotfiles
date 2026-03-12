@@ -1,2 +1,8 @@
 nodejs 20.19.0
 yarn 1.20.0
+erlang 26.2.1
+elixir 1.16.0-otp-26
+java openjdk-17
+ruby 3.3.0
+scala 2.13.13
+bun 1.1.21
