@@ -28,6 +28,7 @@ local keyboard = {
       { { 'n',     }, 'g?',             maps.help('g'),          { desc = ' which-key'            } },
       { { 'n', 'x' }, 'g]',             maps.run_star_git,       { desc = ' star git',            } },
       { { 'n', 'x' }, 'gp',             maps.file_url,           { desc = ' file-url'             } },
+      { { 'n'      }, 'gP',             maps.file_urln,          { desc = ' file-url!'            } },
       { { 'n',     }, '<leader>t',      maps.run_term,           { desc = ' run-term'             } }, -- revisit
       { { 'n',     }, '<leader>e',      maps.errors_buffer,      { desc = ' errors-buf'           } }, -- todo: toggle
       { { 'n',     }, '<leader>c',      maps.clear_marks,        { desc = ' clear-marks'          } }, -- revisit (unsued)
@@ -247,16 +248,18 @@ vim.api.nvim_create_autocmd({ 'BufReadPost', 'FileType' }, {
 
 ---[[ -- 1-9 marks override with A-I
 for i = 1, 9 do
-	local mark = string.char(string.byte('A') + i - 1)
-	vim.keymap.set('n', 'm' .. tostring(i), function()
-		vim.cmd('mark ' .. mark)
-		vim.notify('Set mark ' .. mark, vim.log.levels.INFO)
-	end, { desc = 'Set mark ' .. mark })
-	for _, key in ipairs({ [[']], [[`]] }) do
-		vim.keymap.set('n', key .. tostring(i), function()
-			vim.cmd('normal! ' .. key .. mark)
-			vim.notify('Jumped to mark ' .. mark, vim.log.levels.INFO)
-		end, { desc = 'Jump to mark ' .. mark })
+	local mark = string.char(string.byte("A") + i - 1)
+
+	vim.keymap.set("n", "m" .. i, function()
+		vim.cmd("mark " .. mark)
+		vim.notify("Set mark " .. mark)
+	end, { desc = "Set mark " .. mark })
+
+	for _, k in ipairs({ "'", "`" }) do
+		vim.keymap.set({ "n", "x" }, k .. i, function()
+			vim.cmd("normal! " .. k .. mark)
+			vim.notify("Jumped to mark " .. mark)
+		end, { desc = "Jump to mark " .. mark })
 	end
 end
 -- ]]

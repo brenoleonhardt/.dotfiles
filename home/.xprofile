@@ -10,6 +10,7 @@ dbus-update-activation-environment --all # for gnome-keyring
 
 feh --bg-fill /usr/share/backgrounds/gnome/blobs-l.svg
 
+# TODO: what here can/should be moved to systemd and vise-versa?
 slstatus       & disown # statusbar
 dunst          & disown # notification daemon
 udiskie -n -s  & disown # automount disks
@@ -20,5 +21,6 @@ pasystray \
 	--key-grabbing \
 	--volume-inc=3 & disown # pulseaudio volume applet
 redshift-gtk -l 41.1691:-8.6793 -g 0.75 & disown
+notify-capslock & disown
 
 ~/bin/reset-keyboard -x

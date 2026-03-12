@@ -364,15 +364,9 @@ end
 M.recompile = function() vim.cmd('Recompile') end
 M.compiled = function() vim.api.nvim_input(':Compiled ') end
 
-M.file_url = function()
-	if vim.fn.mode() == 'n' then
-		vim.cmd('Url')
-	else
-		vim.cmd('Url!')
-		local cmd = vim.api.nvim_replace_termcodes('<esc>', true, true, true)
-		vim.api.nvim_feedkeys(cmd, 'v', true)
-	end
-end
+M.file_url = function() vim.cmd('Url') end
+
+M.file_urln = function() vim.cmd('Url!') end
 
 -- Only for npm now
 M.npm_test_file = function()
