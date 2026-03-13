@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+cmds=(
+	"clone-github"
+	"dmenu_pdf"
+	"faillock-reset"
+	"monitor asus"
+	"monitor dual"
+	"monitor hp"
+	"reset-audio"
+	"reset-keyboard"
+	"reset-keyboard -x"
+	"shutdown -h now"
+	"shutdown -r now"
+)
+
+cmd=$(printf "%s\n" "${cmds[@]}" | dmenu -p Run)
+
+test -z "$cmd" && exit 1
+
+output=$(eval "$cmd")
+
+notify-send "$cmd" "$output"
