@@ -23,7 +23,7 @@
                         "~/.local/state/"))
   "Emacs state directory.")
 
-;; Ensure directories exist
+;; Ensure main directories exist
 (dolist (dir (list my/emacs-config-dir
                    my/emacs-cache-dir
                    my/emacs-data-dir
@@ -39,7 +39,7 @@
   (startup-redirect-eln-cache
    (expand-file-name "eln-cache/" my/emacs-cache-dir)))
 
-;; Customization file (kept in config repo)
+;; Customization file (kept in config)
 (setq custom-file
       (expand-file-name "custom.el" my/emacs-config-dir))
 (load custom-file 'noerror)
@@ -53,7 +53,9 @@
       `((".*" ,(expand-file-name "auto-save/" my/emacs-state-dir) t)))
 
 ;; Auto-save session data (auto-save-list)
-(setq auto-save-list-file-prefix
-      (expand-file-name "auto-save-list/.saves-" my/emacs-state-dir))
+(let ((asl-dir (expand-file-name "auto-save-list/" my/emacs-state-dir)))
+  (make-directory asl-dir t) ;; create directory if it doesn't exist
+  (setq auto-save-list-file-prefix
+        (expand-file-name ".saves-" asl-dir)))
 
 ;;; xdg.el ends here
