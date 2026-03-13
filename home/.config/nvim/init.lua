@@ -41,4 +41,25 @@ TODO:
 	13. cleanup unused keybindings and unused functionalities
 	14. cleanup unused functions/modules
 	15. establish snippet database
+
+compile.lua:
+- recompile use picker, allow two actions:
+	1. re-execute
+	2. change the command on the cmdline or cmdline buffer
+- rename compiled to compile-list or compile-buffers and use picker to open it
+- focus by default
+- use <leader>m prefix mappings, mm calls the make picker, mc, mr, mb
+
+makeprg:
+- what is a good solution for this?
+
+C-]:
+add ctags / utags support
+Ctrl-] → Jump to tag under cursor (:tag automatically)
+g Ctrl-] → Preview the tag in a split without moving
+:tselect {name} → Select from a list of matches
+all work with with visual
+maybe gd should be used for lsp go to definition
+
+gf/gF and visual need better support
 ]]

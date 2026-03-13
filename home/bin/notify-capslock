@@ -3,6 +3,9 @@
 import subprocess
 import evdev
 from evdev import ecodes
+import setproctitle
+
+setproctitle.setproctitle("notify-capslock")
 
 devices = [evdev.InputDevice(path) for path in evdev.list_devices()]
 

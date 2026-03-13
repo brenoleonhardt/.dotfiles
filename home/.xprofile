@@ -21,6 +21,18 @@ pasystray \
 	--key-grabbing \
 	--volume-inc=3 & disown # pulseaudio volume applet
 redshift-gtk -l 41.1691:-8.6793 -g 0.75 & disown
-notify-capslock & disown
 
-~/bin/reset-keyboard -x
+# ------------------------------------------
+# Idle → Lock → Suspend setup for Arch Linux
+# 1. DPMS handles monitor blanking (screen off)
+# 2. xss-lock locks the screen when monitor blanks
+# 3. systemd logind suspends the computer after longer idle
+# This keeps screen locking and full suspend predictable
+# TODO: patch up slock
+# ------------------------------------------
+xset +dpms
+xset dpms 600 0 0
+xss-lock --transfer-sleep-lock -- slock &
+
+notify-capslock & disown # not working
+reset-keyboard

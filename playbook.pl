@@ -90,7 +90,7 @@ pacman(
     'zip',                    'zk',
     'cpanminus',              'perl-local-lib',
     'man-pages',
-    
+
     # lock
     'xss-lock', 'slock',
 
@@ -120,15 +120,17 @@ stow(
 );
 
 etc(
-    { file => 'lightdm-gtk-greeter.conf', dir => '/etc/lightdm/' },
-    { file => '10-keyboard.rules',        dir => '/etc/udev/rules.d/' },
-    { file => '40-wacom.rules',           dir => '/etc/udev/rules.d/' },
-    { file => '10-keyboard.conf',         dir => '/etc/X11/xorg.conf.d/' },
-    { file => '20-monitor.conf',          dir => '/etc/X11/xorg.conf.d/' },
-    { file => '30-touchpad.conf',         dir => '/etc/X11/xorg.conf.d/' },
-    { file => 'ssh_known_hosts',          dir => '/etc/ssh/' },
-    { file => 'pacman.conf',              dir => '/etc/' },
-    { file => 'pinentry-generic',         dir => '/usr/local/bin/' },
+    { file => 'lightdm-gtk-greeter.conf',    dir => '/etc/lightdm/' },
+    { file => 'logind.conf',                 dir => '/etc/systemd/' },
+    { file => 'disable-xhc1-wakeup.service', dir => '/etc/systemd/system/' },
+    { file => '10-keyboard.rules',           dir => '/etc/udev/rules.d/' },
+    { file => '40-wacom.rules',              dir => '/etc/udev/rules.d/' },
+    { file => '10-keyboard.conf',            dir => '/etc/X11/xorg.conf.d/' },
+    { file => '20-monitor.conf',             dir => '/etc/X11/xorg.conf.d/' },
+    { file => '30-touchpad.conf',            dir => '/etc/X11/xorg.conf.d/' },
+    { file => 'ssh_known_hosts',             dir => '/etc/ssh/' },
+    { file => 'pacman.conf',                 dir => '/etc/' },
+    { file => 'pinentry-generic',            dir => '/usr/local/bin/' },
 );
 
 my $GIT = 'git@github.com:brenoleonhardt/';
@@ -144,16 +146,14 @@ git(
 );
 
 systemctl(
-    user => [
-        'gpg-agent.target',
-        'emacs.service'
-    ],
+    user => [ 'gpg-agent.target', 'emacs.service' ],
     root => [
         'bluetooth.service',
         'cronie.service',
         'docker.service',
         'lightdm.service',
-        'pcscd.socket' # gpg-card
+        'pcscd.socket',    # gpg-card
+        'disable-xhc1-wakeup.service'
 
         # 'sshd.service'
     ]

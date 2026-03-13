@@ -14,38 +14,37 @@ local keyboard = {
   }, -- ]]
   mappings = {
     action = { -- [[
-      { { 'n',     }, '<c-n>',          maps.find_mark,          { desc = ' marks'                } },
-      -- { { 'n',     }, '<c-n>',          maps.focus_terminal,     { desc = ' terminal'             } }, -- TODO
-      { { 'n',     }, '<c-]>',          maps.goto_definition,    { desc = ' definition'           } },
-      { { 'n',     }, '<c-k>',          maps.show_hover,         { desc = ' hover'                } },
-      { { 'n',     }, 'gr',             maps.goto_references,    { desc = ' references'           } },
-      { { 'n',     }, 'gi',             maps.goto_implementation,{ desc = ' implementation'       } },
-      { { 'n',     }, 'gy',             maps.goto_typedef,       { desc = ' typedef'              } },
-      { { 'n',     }, 'gO',             maps.qf_buf_symbols,     { desc = ' buf-symbols'          } }, -- revisit (useful?)
-      { { 'n', 'x' }, 'ga',             maps.run_align,          { desc = ' align'                } },
-      { { 'n', 'x' }, 'gx',             maps.run_gx,             { desc = ' browse',              } },
-      { { 'n',     }, 'gm',             maps.messages,           { desc = ' messages'             } }, -- forgot (useful)
-      { { 'n',     }, 'g?',             maps.help('g'),          { desc = ' which-key'            } },
-      { { 'n', 'x' }, 'g]',             maps.run_star_git,       { desc = ' star git',            } },
-      { { 'n', 'x' }, 'gp',             maps.file_url,           { desc = ' file-url'             } },
-      { { 'n'      }, 'gP',             maps.file_urln,          { desc = ' file-url!'            } },
-      { { 'n',     }, '<leader>t',      maps.run_term,           { desc = ' run-term'             } }, -- revisit
-      { { 'n',     }, '<leader>e',      maps.errors_buffer,      { desc = ' errors-buf'           } }, -- todo: toggle
-      { { 'n',     }, '<leader>c',      maps.clear_marks,        { desc = ' clear-marks'          } }, -- revisit (unsued)
-      { { 'n',     }, '<leader>x',      maps.clear_buffers,      { desc = ' hover'                } }, -- revisit (unused)
-      { { 'n', 'x' }, '<leader>r',      maps.run_rename,         { desc = ' rename'               } },
-      { { 'n', 'x' }, '<leader>s',      maps.run_replace,        { desc = ' replace'              } },
-      { { 'n', 'x' }, '<leader>z',      maps.run_zknew,          { desc = ' zk-new',              } },
-      { { 'n',     }, '<leader>m',      maps.run_make,           { desc = ' make',                } }, -- revisit (use compile)
-      { { 'n', 'x' }, '<leader>a',      maps.run_code,           { desc = ' code-action'          } },
-      { { 'n', 'x' }, '<leader>i',      maps.run_neogen,         { desc = ' neogen',              } },
-      { { 'n', 'x' }, '<leader>=',      maps.run_format,         { desc = ' format'               } },
-      { { 'n', 'x' }, '<leader>/',      maps.run_grep,           { desc = ' grep',                } },
-      { { 'n', 'x' }, '<leader>]',      maps.compile,            { desc = ' compile',             } },
-      { { 'n'      }, '<leader>[',      maps.recompile,          { desc = ' recompile',           } },
-      { { 'n',     }, '<c-p>',          maps.compiled,           { desc = ' open compile'         } },
+      { { 'n',     }, '<c-n>',          maps.find_mark,          { desc = ' marks'                } }, -- not used?
+      { { 'n',     }, '<c-]>',          maps.goto_definition,    { desc = ' definition'           } }, -- maybe gd also/instead? keywordprg is junk
+      { { 'n',     }, '<c-k>',          maps.show_hover,         { desc = ' hover'                } }, -- OK
+      { { 'n',     }, 'gr',             maps.goto_references,    { desc = ' references'           } }, -- OK
+      { { 'n',     }, 'gi',             maps.goto_implementation,{ desc = ' implementation'       } }, -- OK
+      { { 'n',     }, 'gy',             maps.goto_typedef,       { desc = ' typedef'              } }, -- OK
+      -- { { 'n',     }, 'gO',             maps.qf_buf_symbols,     { desc = ' buf-symbols'          } }, -- not useful
+      { { 'n', 'x' }, 'ga',             maps.run_align,          { desc = ' align'                } }, -- OK - need better/custom plugin
+      { { 'n', 'x' }, 'gx',             maps.run_gx,             { desc = ' browse',              } }, -- OK
+      { { 'n',     }, 'gm',             maps.messages,           { desc = ' messages'             } }, -- OK - freq. forgotten
+      { { 'n',     }, 'g?',             maps.help('g'),          { desc = ' which-key'            } }, -- OK - need to revisit which-key
+      { { 'n', 'x' }, 'g]',             maps.run_star_git,       { desc = ' star git',            } }, -- OK - super useful, forgot about it
+      { { 'n'      }, 'gp',             maps.file_url,           { desc = ' file-url'             } }, -- OK - freq. forgotten
+      { { 'n'      }, 'gP',             maps.file_urln,          { desc = ' file-url!'            } }, -- OK
+      { { 'n',     }, '<leader>t',      maps.run_term,           { desc = ' run-term'             } }, -- revisit (unsued)
+      { { 'n',     }, '<leader>e',      maps.errors_buffer,      { desc = ' errors-buf'           } }, -- revisit (unused) todo: toggle
+      { { 'n',     }, '<leader>c',      maps.clear_marks,        { desc = ' clear-marks'          } }, -- revisit (unsued?)
+      { { 'n',     }, '<leader>x',      maps.clear_buffers,      { desc = ' hover'                } }, -- revisit (unused?)
+      { { 'n', 'x' }, '<leader>r',      maps.run_rename,         { desc = ' rename'               } }, -- OK
+      { { 'n', 'x' }, '<leader>s',      maps.run_replace,        { desc = ' replace'              } }, -- OK
+      { { 'n', 'x' }, '<leader>z',      maps.run_zknew,          { desc = ' zk-new',              } }, -- ok, can be prefix to search and new
+      { { 'n',     }, '<leader>m',      maps.run_make,           { desc = ' make',                } }, -- can be prefix to compile, compile-list, recompile
+      { { 'n', 'x' }, '<leader>a',      maps.run_code,           { desc = ' code-action'          } }, -- OK
+      { { 'n', 'x' }, '<leader>i',      maps.run_neogen,         { desc = ' neogen',              } }, -- revisit
+      { { 'n', 'x' }, '<leader>=',      maps.run_format,         { desc = ' format'               } }, -- OK
+      { { 'n', 'x' }, '<leader>/',      maps.run_grep,           { desc = ' grep',                } }, -- revisit the module
+      { { 'n', 'x' }, '<leader>]',      maps.compile,            { desc = ' compile',             } }, -- revisit recompile, compile-list, use picker, fill cmdline
+      { { 'n'      }, '<leader>[',      maps.recompile,          { desc = ' recompile',           } }, -- remove after modifications to compile plugin
+      { { 'n',     }, '<c-p>',          maps.compiled,           { desc = ' open compile'         } }, -- same as above
       { { 'n',     }, '<leader>\\',     maps.npm_test_file,      { desc = ' npm-test-file'        } }, -- revisit (use test)
-      { { 'n',     }, '<leader>?',      maps.help('<leader>'),   { desc = ' which-key'            } },
+      { { 'n',     }, '<leader>?',      maps.help('<leader>'),   { desc = ' which-key'            } }, -- OK
     }, -- ]]
     debug = { -- [[
       --[[ { {'n',      }, '<leader>dd',     maps.debug_start,        { desc = '/ start/continue'     } },
@@ -105,10 +104,10 @@ local keyboard = {
       { { 'n',     }, 'q?',             maps.help('<leader>q'),  { desc = ' which-key'            } },
     }, -- ]]
     window = { -- [[
-      { { 'n',     }, '<leader>w',      '<c-w>',                 {                                 } },
-      { { 'n',     }, '<leader>wt',     maps.run_tabnew,         { desc = ' tabnew',              } },
-      { { 'n',     }, '<leader>we',     maps.run_enew,           { desc = ' enew',                } },
-      { { 'n',     }, '<leader>wm',     maps.run_maximize,       { desc = ' maximize',            } },
+      { { 'n',     }, '<leader>w',      '<c-w>',                 {                                 } }, -- TODO:
+      { { 'n',     }, '<leader>wt',     maps.run_tabnew,         { desc = ' tabnew',              } }, -- remove leader w prefix
+      { { 'n',     }, '<leader>we',     maps.run_enew,           { desc = ' enew',                } }, -- add C-w e, C-w t, C-w T commads
+      { { 'n',     }, '<leader>wm',     maps.run_maximize,       { desc = ' maximize',            } }, -- no need for C-w m
       { { 'n',     }, '<leader>w?',     maps.help('<c-w>'),      { desc = ' which-key'            } },
     }, -- ]]
     jump = { -- [[
