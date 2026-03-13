@@ -1,27 +1,37 @@
 # shellcheck disable=all
 
 pkgname=neovim-fork
-pkgver=0.11.6
-pkgrel=0
+pkgver=0.12.0
+pkgrel=2560
 pkgdesc='Fork of Vim aiming to improve user experience, plugins, and GUIs.'
-arch=(x86_64)
+arch=('x86_64')
 url='https://neovim.io'
 license=('custom:neovim')
-conflicts=(neovim)
+conflicts=('neovim')
 options=('!debug')
 
-source=("https://github.com/neovim/neovim/releases/download/nightly/nvim-linux-x86_64.tar.gz")
+source=()
+sha256sums=()
 
-sha256sums=('2fc90b962327f73a78afbfb8203fd19db8db9cdf4ee5e2bef84704339add89cc')
+prepare() {
+	curl -L -H "Accept: application/octet-stream" \
+		-o "${srcdir}/nvim-linux-x86_64.tar.gz" \
+		"https://api.github.com/repos/neovim/neovim/releases/assets/372887746"
+
+	echo "b7215fcabd04b53188035c7f4ef32693308ca0fa88ebf016355a8ca9f292f926  ${srcdir}/nvim-linux-x86_64.tar.gz" | sha256sum -c -
+
+	tar -xzf "${srcdir}/nvim-linux-x86_64.tar.gz" -C "${srcdir}"
+}
 
 check() {
-  cd nvim-linux-x86_64
-  ./bin/nvim --version
-  ./bin/nvim --headless -u NONE -i NONE -c ':quit'
+	cd "${srcdir}/nvim-linux-x86_64"
+	./bin/nvim --version
+	./bin/nvim --headless -u NONE -i NONE -c ':quit'
 }
 
 package() {
-  cd nvim-linux-x86_64
-  install -Dm755 bin/nvim -t "$pkgdir/usr/bin/"
-  cp -r lib share "$pkgdir/usr/"
+	cd "${srcdir}/nvim-linux-x86_64"
+	install -Dm755 bin/nvim -t "$pkgdir/usr/bin/"
+	cp -r lib "$pkgdir/usr/"
+	cp -r share "$pkgdir/usr/"
 }
