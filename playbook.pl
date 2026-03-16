@@ -109,6 +109,7 @@ dirs(
     # prevent stow folding
     '~/.config',
     '~/.config/systemd/user',
+    '~/.config/emacs',
     '~/.gnupg',
     '~/.ssh'
 );
