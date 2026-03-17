@@ -17,7 +17,7 @@
 ;; Put auto-save files in one place
 (setq auto-save-file-name-transforms '((".*" "~/.emacs.d/auto-saves/" t)))
 
-n;; Make yes-or-no-p function use shorter y/n
+;; Make yes-or-no-p function use shorter y/n
 (setq use-short-answers t)
 
 ;; When opening help, move pointer to window

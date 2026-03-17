@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 cmds=(
+	"systemctl restart --user emacs"
 	"clone-github"
 	"dmenu_pdf"
 	"faillock-reset"
